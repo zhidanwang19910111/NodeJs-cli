@@ -22,4 +22,11 @@ program
 .action(function(a){
     console.log('new project-name ' + a)
 })
+
+
+
+
+// 模拟一个window dir 命令
 program.parse(process.argv)
+
+
