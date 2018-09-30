@@ -6,6 +6,10 @@ var swig = require('swig');
 var mongoose = require('mongoose');
 
 
+//加载body-parser  用来处理post提交过来的数据
+var bodyParser = require('body-parser');
+
+
 //创建app应用   ==> 等同于Node.Js 的http server
 var app = express();
 
@@ -41,6 +45,9 @@ swig.setDefaults({cache: false})
 //     res.render('index')
 // })
 
+//bodyparser 设置
+
+app.use(bodyParser.urlencoded({extended: true}));
 /**
  * 根据不同功能划分模块
  */
@@ -49,12 +56,25 @@ swig.setDefaults({cache: false})
  app.use('/api', require('./routers/api'))
  app.use('/', require('./routers/main'))
 
+
+
+
+//  useNewUrlParser=true
  //链接数据库
- mongoose.connect();
+//?useNewUrlParser=true
 
-//监听http请求
+// var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://127.0.0.1:27017/blog";
+ 
+mongoose.connect(url, { 'useNewUrlParser': true }, function(err, db) {
+  if (err) throw err;
+  console.log("数据库已连接!");
+  //监听http请求
+        
+  app.listen(8888)
+//   db.close();
+});
 
-app.listen(8888)
 
 
 
